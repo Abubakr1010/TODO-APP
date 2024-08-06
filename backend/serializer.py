@@ -3,6 +3,7 @@ from rest_framework import serializers
 from .models import User, Task
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth import authenticate
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -27,25 +28,6 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"email": "User with this email already exist"})
         
         return data
-
-    
-class UserLoginSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ['email','password']
-
-
-    def validate(self,data):
-        email = data.get('email')
-        password = data.get('password')
-
-        if not User.objects.filter(email=email).exists():
-            raise serializers.ValidationError({"email":"Account with this email does not exist"})
-        
-        if not User.objects.filter(password=password).exists():
-            raise serializers.ValidationError({"password":"Invalid Password"})
-        
 
 # Task Serializers
 

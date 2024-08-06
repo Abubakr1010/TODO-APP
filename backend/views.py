@@ -1,10 +1,11 @@
 # views.py
-from rest_framework import status
+from rest_framework import status, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializer import UserSerializer, UserLoginSerializer, CreateTask, DeleteTask, ViewTask, UpdateTask, CompletedTask, SingleUserTasks
+from .serializer import UserSerializer,CreateTask, DeleteTask, ViewTask, UpdateTask, CompletedTask, SingleUserTasks
 from django.contrib.auth import login as auth_login
 from .models import Task, User
+from django.contrib.auth import authenticate
 
 
 @api_view(['POST'])
@@ -15,22 +16,31 @@ def signup(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
-            
+    
 
 @api_view(['POST'])
 def login(request):
-    if request.method == 'POST':
-        serializer = UserLoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data['user']
-            if user.is_active():
-                auth_login(request,user)
-                return Response ({"sucess":"Logged in successfully", "status":"Active"}, status=status.HTTP_200_OK)
-            else:
-                return Response({"error": "Account is inactive"}, status=status.HTTP_404_BAD_REQUEST)
-        return Response(status=status.HTTP_302_FOUND)
-            
-            
+    email = request.data.get('email')
+    password = request.data.get('password')
+
+    if email is None or password is None:
+        return Response({"error":"please provide both email and password"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        return Response({"error":"Invalid email or password"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if not user.check_password(password):
+        return Response({"error":"Invalid email or password"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    if not user.is_active:
+        return Response({"error":"User is deactivated"}, status=status.HTTP_404_NOT_FOUND)
+    
+    return Response({"success":"Logged in successfully", "status":"Active"}, status=status.HTTP_200_OK)
+
+
+
 @api_view(['POST'])
 def create(request):
     if request.method == 'POST':
