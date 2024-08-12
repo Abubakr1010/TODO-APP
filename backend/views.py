@@ -37,6 +37,7 @@ def login(request):
     if not user.is_active:
         return Response({"error":"User is deactivated"}, status=status.HTTP_404_NOT_FOUND)
     
+    
     return Response({"success":"Logged in successfully", "status":"Active"}, status=status.HTTP_200_OK)
 
 
