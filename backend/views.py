@@ -8,6 +8,7 @@ from .models import Task, User
 from django.contrib.auth import authenticate
 
 
+#signup request
 @api_view(['POST'])
 def signup(request):
     if request.method == 'POST':
@@ -18,6 +19,7 @@ def signup(request):
         return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
     
 
+#login request
 @api_view(['POST'])
 def login(request):
     email = request.data.get('email')
@@ -42,6 +44,7 @@ def login(request):
 
 
 
+#create request
 @api_view(['POST'])
 def create(request):
     if request.method == 'POST':
@@ -52,6 +55,7 @@ def create(request):
         return Response({"Error": "Task not created", "Details": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
+#view_task request
 @api_view(['GET'])
 def view_task(request):
     if request.method == 'GET':
@@ -65,8 +69,7 @@ def view_task(request):
 
 
 
-
-
+#delete request
 @api_view(['DELETE'])
 def delete(request):
     if request.method == 'DELETE':
@@ -85,7 +88,7 @@ def delete(request):
     
             
 
-
+#update request
 @api_view(['PUT'])
 def update(request, pk):
     try:
@@ -102,7 +105,7 @@ def update(request, pk):
     
 
     
-            
+#completed request            
 @api_view(['POST'])
 def completed(request, pk):
     try:
@@ -118,6 +121,7 @@ def completed(request, pk):
     return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
     
 
+#view_single_user_tasks request 
 @api_view(['GET'])
 def view_single_user_tasks(request,pk):
     try:
