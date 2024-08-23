@@ -11,6 +11,7 @@ gunicorn = "*"
 [dev-packages]
 pytest = "*"
 pytest-django = "*"
+locust = "*"
 
 [requires]
 python_version = "3.12"
