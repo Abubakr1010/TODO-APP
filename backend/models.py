@@ -18,6 +18,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password=password, **extra_fields)
 
+# User Model
 class User(AbstractBaseUser):
     user_id = models.AutoField(primary_key=True, validators=[MinValueValidator(1)])
     first_name = models.CharField(max_length=30)
@@ -36,7 +37,9 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
+    
+    
+# Task Model
 class Task(models.Model):
     task_id = models.CharField(primary_key=True, max_length=30)  
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)

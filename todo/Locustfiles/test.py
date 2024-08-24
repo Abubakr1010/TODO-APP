@@ -3,9 +3,11 @@ from locust import HttpUser, task, between
 
 
 class LoginUser(HttpUser):
-    wait_time = between(1, 2)
+    wait_time = between(1, 5)
 
-    @task
+    @task(1)
     def login(self):
         self.client.post("/login/", json={"email": "jackmax4@gmail.com", "password": "1251"})
+        # locust -f todo/Locustfiles/test.py
+
 

@@ -1,11 +1,8 @@
-# views.py
 from rest_framework import status, status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .serializer import UserSerializer,CreateTask, DeleteTask, ViewTask, UpdateTask, CompletedTask, SingleUserTasks
-from django.contrib.auth import login as auth_login
 from .models import Task, User
-from django.contrib.auth import authenticate
+from .serializer import UserSerializer,CreateTask, DeleteTask, ViewTask, UpdateTask, CompletedTask, SingleUserTasks
 
 
 #signup request

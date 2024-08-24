@@ -1,10 +1,10 @@
 # serializers.py
 from rest_framework import serializers
 from .models import User, Task
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import authenticate
 
+
+
+# Signup Serializer
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -28,9 +28,9 @@ class UserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({"email": "User with this email already exist"})
         
         return data
+    
 
-# Task Serializers
-
+# Create Task Serializer
 class CreateTask(serializers.ModelSerializer):
 
     class Meta:
@@ -38,7 +38,7 @@ class CreateTask(serializers.ModelSerializer):
         fields = ['task_id','user_id','text','status']
 
 
-
+# View Task Serializer
 class ViewTask(serializers.ModelSerializer):
 
     class Meta:
@@ -46,7 +46,7 @@ class ViewTask(serializers.ModelSerializer):
         fields = ['user_id','task_id','text','status','created']
 
 
-
+# Delete Task Serializer
 class DeleteTask(serializers.Serializer):
 
 
@@ -54,20 +54,23 @@ class DeleteTask(serializers.Serializer):
     task_id = serializers.IntegerField()
 
 
+# Update Task Serializer
 class UpdateTask(serializers.ModelSerializer):
 
     class Meta:
         model = Task
         fields = ['user_id','task_id','text']
 
-    
+
+# CompletedTask Serializer 
 class CompletedTask(serializers.ModelSerializer):
 
     class Meta:
         model = Task
         fields = ['user_id','task_id','status']
     
-    
+
+# Single User Task Serializer     
 class TaskSerializer(serializers.ModelSerializer):
 
     class Meta:
