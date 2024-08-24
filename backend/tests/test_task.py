@@ -1,10 +1,11 @@
 import pytest
-from backend.models import User, Task
+from backend.models import User
 from rest_framework.test import APIClient
 from rest_framework import status
 from django.urls import reverse
 
 
+# Successfull Login Pytest
 @pytest.mark.django_db
 def test_login_successfully():
     first_name = 'test'
@@ -32,6 +33,8 @@ def test_login_successfully():
     assert response.data['status']== 'Active'
 
 
+
+# Wrong Password Login Pytest
 @pytest.mark.django_db
 def test_login_with_wrong_password():
     first_name = 'test'
@@ -60,6 +63,7 @@ def test_login_with_wrong_password():
     assert response.data['error'] == 'Invalid email or password' 
   
 
+# Wrong Email Login Pytest
 @pytest.mark.django_db
 def test_login_with_wrong_email():
     first_name = 'test'
@@ -89,6 +93,7 @@ def test_login_with_wrong_email():
 
     
 
+# Task Created Pytest
 @pytest.mark.django_db
 def test_create_task_completed():
     user = User.objects.create_user(first_name='test', 
