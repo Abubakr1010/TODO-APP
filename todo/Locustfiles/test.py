@@ -1,7 +1,7 @@
 from locust import HttpUser, task, between
 
 
-
+# Login Performance test
 class LoginUser(HttpUser):
     wait_time = between(1, 5)
 
